@@ -1,0 +1,66 @@
+/**
+ * Estilos para entrada de parámetros
+ */
+
+.parameters-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.parameters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.parameter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.param-label {
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required-star {
+  color: #ff6b6b;
+}
+
+.param-input {
+  padding: 10px 14px;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  background: white;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
+}
+
+.param-input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.param-input::placeholder {
+  color: #999;
+}
+
+@media (max-width: 768px) {
+  .parameters-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .param-input {
+    font-size: 0.9rem;
+  }
+}

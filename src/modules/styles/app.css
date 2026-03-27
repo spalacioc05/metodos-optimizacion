@@ -1,0 +1,35 @@
+/**
+ * Estilos para App principal
+ */
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e8f0fe 100%);
+}
+
+.app-main {
+  flex: 1;
+  overflow-y: auto;
+  transition: margin-left 0.3s ease;
+  padding: 20px;
+}
+
+.app-main.sidebar-open {
+  margin-left: 0;
+}
+
+.container-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .app-main {
+    padding: 10px;
+  }
+
+  .container-content {
+    max-width: 100%;
+  }
+}

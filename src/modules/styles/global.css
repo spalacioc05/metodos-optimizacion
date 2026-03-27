@@ -1,0 +1,174 @@
+/**
+ * Estilos globales - Tema claro con degradados azul/verde
+ * Tipografía matemática
+ */
+
+:root {
+  /* Tema claro */
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f0f1f3;
+  
+  /* Acentos */
+  --accent-blue: #0066cc;
+  --accent-blue-light: #0080ff;
+  --accent-green: #00a878;
+  --accent-green-light: #00d97e;
+  
+  /* Texto */
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-light: #999999;
+  
+  /* Bordes */
+  --border-color: #e0e0e0;
+  --border-light: #f0f0f0;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  
+  /* Fuentes */
+  --font-main: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  --font-math: 'Courier New', 'IBM Plex Mono', monospace;
+  --font-heading: 'Inter', sans-serif;
+  --letter-spacing: 0.5px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  background: linear-gradient(135deg, var(--bg-primary) 0%, #e8f0fe 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  letter-spacing: var(--letter-spacing);
+  min-height: 100vh;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.5em;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-green) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  font-size: 1.875rem;
+  color: var(--accent-blue);
+}
+
+h3 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+p {
+  margin-bottom: 1em;
+  color: var(--text-secondary);
+}
+
+/* Code/Math expressions */
+code, .math-expr {
+  font-family: var(--font-math);
+  background: var(--bg-tertiary);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Buttons */
+button {
+  font-family: var(--font-main);
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  font-family: var(--font-math);
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-blue) 0%, var(--accent-green) 100%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent-blue-light) 0%, var(--accent-green-light) 100%);
+}
+
+/* Utilities */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-green) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-green) 100%);
+}

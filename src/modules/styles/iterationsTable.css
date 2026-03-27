@@ -1,0 +1,138 @@
+/**
+ * Estilos para tabla de iteraciones
+ */
+
+.iterations-table-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.table-title {
+  font-size: 1.2rem;
+  color: #0066cc;
+  margin: 0;
+  font-weight: 600;
+}
+
+.iterations-table.empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.iterations-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 0.9rem;
+}
+
+.iterations-table thead {
+  background: linear-gradient(135deg, rgba(0, 102, 204, 0.1) 0%, rgba(0, 168, 120, 0.1) 100%);
+  border-bottom: 2px solid #0066cc;
+  position: sticky;
+  top: 0;
+}
+
+.iterations-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 700;
+  color: #0066cc;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.iterations-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f1f3;
+  color: #1a1a1a;
+  font-family: 'Courier New', monospace;
+}
+
+.iterations-table tbody tr:hover {
+  background: rgba(0, 102, 204, 0.05);
+}
+
+.iterations-table tbody tr.best-row {
+  background: rgba(0, 168, 120, 0.15);
+  font-weight: 600;
+}
+
+.iterations-table tbody tr.best-row td {
+  color: #00a878;
+}
+
+/* Columnas específicas */
+.iterations-table .col-iteration {
+  font-weight: 700;
+  color: #0066cc;
+  width: 80px;
+  text-align: center;
+}
+
+.iterations-table .col-error {
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+.iterations-table .col-interval,
+.iterations-table .col-intervalwidth {
+  color: #666;
+}
+
+/* Footer */
+.table-footer {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+}
+
+.btn-expand {
+  background: white;
+  border: 2px solid #0066cc;
+  color: #0066cc;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.btn-expand:hover {
+  background: linear-gradient(135deg, #0066cc 0%, #00a878 100%);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 102, 204, 0.2);
+}
+
+@media (max-width: 768px) {
+  .iterations-table {
+    font-size: 0.8rem;
+  }
+
+  .iterations-table th,
+  .iterations-table td {
+    padding: 8px 10px;
+  }
+
+  .iterations-table th {
+    font-size: 0.75rem;
+  }
+
+  .iterations-table .col-iteration {
+    width: 60px;
+  }
+}
