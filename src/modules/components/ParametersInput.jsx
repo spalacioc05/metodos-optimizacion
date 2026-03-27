@@ -7,7 +7,8 @@ export function ParametersInput({ config, values, onChange }) {
     let parsedValue = value;
 
     if (paramType === 'number') {
-      parsedValue = value === '' ? undefined : parseFloat(value);
+      // Mantener cadena vacía para permitir edición sin reinyectar defaultValue.
+      parsedValue = value === '' ? '' : parseFloat(value);
     }
 
     onChange({

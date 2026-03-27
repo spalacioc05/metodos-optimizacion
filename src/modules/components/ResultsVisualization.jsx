@@ -64,7 +64,7 @@ export function ResultsVisualization({ methodId, results, fn, parameters }) {
       }
 
       const iterations = results.iterations;
-      const labels = iterations.map((_, idx) => `i${idx + 1}`);
+      let labels = iterations.map((_, idx) => `i${idx + 1}`);
 
       // Extraer datos según método
       let functionData = [];
@@ -87,6 +87,15 @@ export function ResultsVisualization({ methodId, results, fn, parameters }) {
         functionData = iterations.map(it => (it.left + it.right) / 2);
         convergenceData = iterations.map(it => it.right - it.left);
         errorData = iterations.map(it => Math.log10(Math.max(it.error, 1e-10)));
+      } else if (methodId === 'randomSearch') {
+        // Para búsqueda aleatoria, convergencia = mejor valor acumulado por muestra registrada.
+        let bestSoFar = -Infinity;
+        functionData = iterations.map(it => {
+          bestSoFar = Math.max(bestSoFar, it.value);
+          return bestSoFar;
+        });
+        errorData = iterations.map(it => Math.log10(Math.max(it.error ?? 0, 1e-10)));
+        labels = iterations.map((it, idx) => `m${it.sample ?? idx + 1}`);
       }
 
       // Gráfico de convergencia

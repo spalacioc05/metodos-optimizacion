@@ -70,6 +70,13 @@ export function MethodPanel({ methodId, onMenuOpen }) {
       }
     }
 
+    if (methodId === 'randomSearch') {
+      const samples = Number(parameters.samples);
+      if (!Number.isFinite(samples) || samples <= 0) {
+        errors.push('Número de muestras debe ser mayor que 0');
+      }
+    }
+
     return errors;
   }, [functionExpr, parameters, methodConfig, methodId]);
 
@@ -86,7 +93,15 @@ export function MethodPanel({ methodId, onMenuOpen }) {
     try {
       const fn = createExpression(functionExpr);
       const MethodClass = METHOD_CLASSES[methodId];
-      const method = new MethodClass(fn);
+
+      // Random Search recibe configuración en constructor (samples, seed, etc.)
+      const method = methodId === 'randomSearch'
+        ? new MethodClass(fn, {
+            samples: Number.isFinite(parameters.samples)
+              ? Math.max(1, Math.floor(parameters.samples))
+              : METHOD_CONFIGS.randomSearch.parameters.find(p => p.name === 'samples')?.defaultValue ?? 10000,
+          })
+        : new MethodClass(fn);
 
       // Usar tolerance del parámetro o el defaultValue si no está definida
       const toleranceParam = methodConfig.parameters.find(p => p.name === 'tolerance');

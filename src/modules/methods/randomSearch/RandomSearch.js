@@ -6,7 +6,10 @@
 export class RandomSearchMethod {
   constructor(fn, config = {}) {
     this.fn = fn;
-    this.samples = config.samples || 10000;
+    const parsedSamples = Number(config.samples);
+    this.samples = Number.isFinite(parsedSamples) && parsedSamples > 0
+      ? Math.floor(parsedSamples)
+      : 10000;
     this.seed = config.seed || Math.random();
   }
 
