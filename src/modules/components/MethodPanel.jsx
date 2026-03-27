@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { METHOD_CONFIGS } from '../methods';
 import FunctionInput from './FunctionInput';
 import ParametersInput from './ParametersInput';
@@ -13,7 +13,7 @@ import {
   GoldenRatioMethod,
   RandomSearchMethod,
 } from '../methods';
-import { createExpression } from '../utils/ExpressionParser';
+import { createExpression, extractExpressionVariables } from '../utils/ExpressionParser';
 import '../styles/methodPanel.css';
 
 const METHOD_CLASSES = {
@@ -26,6 +26,15 @@ const METHOD_CLASSES = {
   randomSearch: RandomSearchMethod,
 };
 
+function getDefaultParameters(config) {
+  return config.parameters.reduce((acc, param) => {
+    if (param.defaultValue !== undefined) {
+      acc[param.name] = param.defaultValue;
+    }
+    return acc;
+  }, {});
+}
+
 export function MethodPanel({ methodId, onMenuOpen }) {
   const methodConfig = METHOD_CONFIGS[methodId];
   const [functionExpr, setFunctionExpr] = useState('sin(x) - 0.5');
@@ -33,6 +42,19 @@ export function MethodPanel({ methodId, onMenuOpen }) {
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const defaults = getDefaultParameters(methodConfig);
+    setParameters(defaults);
+    setResults(null);
+    setError(null);
+
+    if (methodId === 'randomSearch') {
+      setFunctionExpr('2.25*x*y + 1.75*y - 1.5*x^2 - 2*y^2');
+    } else {
+      setFunctionExpr('sin(x) - 0.5');
+    }
+  }, [methodId, methodConfig]);
 
   const validateInputs = useCallback(() => {
     const errors = [];
@@ -74,6 +96,19 @@ export function MethodPanel({ methodId, onMenuOpen }) {
       const samples = Number(parameters.samples);
       if (!Number.isFinite(samples) || samples <= 0) {
         errors.push('Número de muestras debe ser mayor que 0');
+      }
+
+      if (parameters.xl === undefined || parameters.xu === undefined || parameters.yl === undefined || parameters.yu === undefined) {
+        errors.push('Debes ingresar x mínimo, x máximo, y mínimo y y máximo');
+      }
+
+      // Si ingresa z mínimo y z máximo, exigir que la función tenga (x, y) para modo 3D
+      const hasZBounds = parameters.zl !== undefined && parameters.zu !== undefined;
+      if (hasZBounds) {
+        const vars = extractExpressionVariables(functionExpr);
+        if (!(vars.includes('x') && vars.includes('y'))) {
+          errors.push('Para modo 3D, la función debe usar dos variables: x e y');
+        }
       }
     }
 
@@ -122,8 +157,9 @@ export function MethodPanel({ methodId, onMenuOpen }) {
       } else if (methodId === 'goldenRatio') {
         result = method.solve(parameters.xl, parameters.xu, tolerance);
       } else if (methodId === 'randomSearch') {
-        const is3D = parameters.zl !== undefined && parameters.zu !== undefined;
-        if (is3D) {
+        // Si z mínimo y z máximo están ingresados, usar modo 3D; de lo contrario, modo 2D normal.
+        const hasZBounds = parameters.zl !== undefined && parameters.zu !== undefined;
+        if (hasZBounds) {
           result = method.solve3D(parameters.xl, parameters.xu, parameters.yl, parameters.yu, parameters.zl, parameters.zu);
         } else {
           result = method.solve2D(parameters.xl, parameters.xu, parameters.yl, parameters.yu);
@@ -188,6 +224,7 @@ export function MethodPanel({ methodId, onMenuOpen }) {
                 results={results}
                 fn={createExpression(functionExpr)}
                 parameters={parameters}
+                is3D={methodId === 'randomSearch' && parameters.zl !== undefined && parameters.zu !== undefined}
               />
             </div>
 

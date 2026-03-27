@@ -36,6 +36,11 @@ const CONSTANTS = {
   E: Math.E,
 };
 
+const RESERVED_IDENTIFIERS = new Set([
+  ...Object.keys(MATH_LIBRARY),
+  ...Object.keys(CONSTANTS),
+]);
+
 /**
  * Tokeniza una expresión matemática
  */
@@ -136,9 +141,26 @@ export function evaluateMultivariate(fn, coords) {
   }
 }
 
+/**
+ * Extrae variables de usuario presentes en la expresión (x, y, z, etc.).
+ */
+export function extractExpressionVariables(expr) {
+  if (typeof expr !== 'string' || !expr.trim()) return [];
+
+  const cleaned = expr
+    .replace(/\*\*/g, ' ')
+    .replace(/[+\-*/()^,]/g, ' ');
+
+  const tokens = cleaned.match(/[A-Za-z_]\w*/g) || [];
+  const vars = tokens.filter(token => !RESERVED_IDENTIFIERS.has(token));
+
+  return Array.from(new Set(vars));
+}
+
 export default {
   createExpression,
   numericalDerivative,
   secondDerivative,
   evaluateMultivariate,
+  extractExpressionVariables,
 };
